@@ -9,7 +9,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: '/auth-app',
-      element: <Main />,
+      element: <Main isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn} />,
       errorElement: <div>not found</div>,
     },
     {
