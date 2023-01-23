@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Main from 'pages/Main';
+import Users from 'pages/Users';
 
 function App() {
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const router = createBrowserRouter([
     {
       path: '/auth-app',
@@ -12,7 +14,7 @@ function App() {
     },
     {
       path: '/auth-app/users',
-      element: <div>users</div>,
+      element: <Users isLoggedIn={isLoggedIn} />,
     },
   ]);
 
