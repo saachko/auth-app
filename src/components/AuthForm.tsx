@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 
-import { getUsers, signUpUser } from 'ts/api';
+import { signInUser, signUpUser } from 'ts/api';
 import { LoginUserData, RegistrationUserData } from 'ts/interfaces';
 import SetState from 'ts/types';
 
@@ -10,55 +10,60 @@ interface AuthFormProps {
   setLoggedIn: SetState<boolean>;
 }
 
+type RegistrationInputs = {
+  username: HTMLInputElement;
+  email: HTMLInputElement;
+  password: HTMLInputElement;
+};
+
 function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
-  const [newUser, setNewUser] = useState<RegistrationUserData | null>(null);
-  const [signInUser, setUserSignedIn] = useState<LoginUserData | null>(null);
-
-  const usernameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  const registrationInputs = [
-    usernameRef.current,
-    emailRef.current,
-    passwordRef.current,
-  ];
-  // const loginInputs = [emailRef.current, passwordRef.current];
-
-  const validateForm = (inputRefs: (HTMLInputElement | null)[]) => {
-    if (!inputRefs.every((ref) => ref && ref.value)) {
-      console.log(usernameRef.current?.value);
-      console.log(emailRef.current?.value);
-      console.log(passwordRef.current?.value);
-      console.log('All fields should be filled out.');
-      return false;
+  const confirmRegistration = async (userData: RegistrationUserData) => {
+    try {
+      console.log(userData);
+      await signUpUser(userData);
+      console.log(await signUpUser(userData));
+      // setLoggedIn(true);
+    } catch (error) {
+      throw new Error(`${error}`);
     }
-    setNewUser({
-      username: usernameRef.current?.value as string,
-      email: emailRef.current?.value as string,
-      password: passwordRef.current?.value as string,
-    });
-    return true;
   };
 
-  const submitRegistration = async () => {
-    if (validateForm(registrationInputs) && newUser) {
-      try {
-        console.log(newUser);
-        await signUpUser(newUser);
-      } catch (error) {
-        console.log(error);
-      }
+  const confirmLogin = async (userData: LoginUserData) => {
+    try {
+      console.log(userData);
+      await signInUser(userData);
+      console.log(await signInUser(userData));
+      // setLoggedIn(true);
+    } catch (error) {
+      throw new Error(`${error}`);
+    }
+  };
+
+  const handleSubmit: React.FormEventHandler<
+    HTMLFormElement & RegistrationInputs
+  > = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (signUpForm) {
+      const { username, email, password } = form;
+      await confirmRegistration({
+        username: username.value,
+        email: email.value,
+        password: password.value,
+      });
+    } else {
+      const { email, password } = form;
+      await confirmLogin({
+        email: email.value,
+        password: password.value,
+      });
     }
   };
 
   return (
     <Form
       className="col-md-4 col-sm-5 mx-auto vh-75 d-flex flex-column justify-content-center"
-      onSubmit={(event) => {
-        event.preventDefault();
-        submitRegistration();
-      }}
+      onSubmit={handleSubmit}
     >
       {signUpForm && (
         <Form.Group className="mb-3" controlId="formUsername">
@@ -66,20 +71,27 @@ function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
           <Form.Control
             type="text"
             placeholder="Enter your name"
-            ref={usernameRef}
+            name="username"
+            required
           />
         </Form.Group>
       )}
       <Form.Group className="mb-3" controlId="formEmail">
         <Form.Label>E-mail address</Form.Label>
-        <Form.Control type="email" placeholder="Enter e-mail" ref={emailRef} />
+        <Form.Control
+          type="email"
+          placeholder="Enter e-mail"
+          name="email"
+          required
+        />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
           placeholder="Password"
-          ref={passwordRef}
+          name="password"
+          required
         />
       </Form.Group>
       <Button variant="primary" type="submit" className="w-100 mt-4">

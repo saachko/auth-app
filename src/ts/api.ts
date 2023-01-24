@@ -11,6 +11,9 @@ const signUpUser = async (userData: RegistrationUserData) => {
       },
       body: JSON.stringify(userData),
     });
+    if (response.status === 400) {
+      return await response.json();
+    }
     return await response.json();
   } catch (error) {
     throw new Error(`${error}`);
@@ -27,6 +30,10 @@ const signInUser = async (userData: LoginUserData) => {
       },
       body: JSON.stringify(userData),
     });
+    if (response.status === (400 || 403)) {
+      // return (await response.json()).message;
+      return await response.json();
+    }
     const token: string = await response.json();
     return token;
   } catch (error) {
