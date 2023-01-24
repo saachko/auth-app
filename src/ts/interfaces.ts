@@ -19,4 +19,9 @@ interface LoginUserData {
   password: string;
 }
 
-export type { User, RegistrationUserData, LoginUserData };
+interface AuthResponse {
+  status: number;
+  message: string;
+}
+
+export type { User, RegistrationUserData, LoginUserData, AuthResponse };

@@ -2,7 +2,12 @@ import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 import { signInUser, signUpUser } from 'ts/api';
-import { LoginUserData, RegistrationUserData } from 'ts/interfaces';
+import { responseStatuses } from 'ts/constants';
+import {
+  AuthResponse,
+  LoginUserData,
+  RegistrationUserData,
+} from 'ts/interfaces';
 import SetState from 'ts/types';
 
 interface AuthFormProps {
@@ -17,12 +22,20 @@ type RegistrationInputs = {
 };
 
 function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
+  // const [response, setResponse] = useState<AuthResponse | null>(null);
+
+  const handleResponse = async (authResponse: AuthResponse) => {
+    // setResponse(authResponse);
+    // TODO make modals based on response
+    if (authResponse?.status === responseStatuses.success) {
+      // TODO save logIn in local storage
+      setLoggedIn(true);
+    }
+  };
+
   const confirmRegistration = async (userData: RegistrationUserData) => {
     try {
-      console.log(userData);
-      await signUpUser(userData);
-      console.log(await signUpUser(userData));
-      // setLoggedIn(true);
+      handleResponse(await signUpUser(userData));
     } catch (error) {
       throw new Error(`${error}`);
     }
@@ -30,10 +43,7 @@ function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
 
   const confirmLogin = async (userData: LoginUserData) => {
     try {
-      console.log(userData);
-      await signInUser(userData);
-      console.log(await signInUser(userData));
-      // setLoggedIn(true);
+      handleResponse(await signInUser(userData));
     } catch (error) {
       throw new Error(`${error}`);
     }

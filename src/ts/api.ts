@@ -1,4 +1,4 @@
-import { signIn, signUp, user, users } from './constants';
+import { responseStatuses, signIn, signUp, user, users } from './constants';
 import { LoginUserData, RegistrationUserData, User } from './interfaces';
 
 const signUpUser = async (userData: RegistrationUserData) => {
@@ -11,10 +11,10 @@ const signUpUser = async (userData: RegistrationUserData) => {
       },
       body: JSON.stringify(userData),
     });
-    if (response.status === 400) {
-      return await response.json();
-    }
-    return await response.json();
+    return {
+      status: response.status,
+      message: (await response.json()).message,
+    };
   } catch (error) {
     throw new Error(`${error}`);
   }
@@ -30,12 +30,21 @@ const signInUser = async (userData: LoginUserData) => {
       },
       body: JSON.stringify(userData),
     });
-    if (response.status === (400 || 403)) {
-      // return (await response.json()).message;
-      return await response.json();
+    if (
+      response.status ===
+      (responseStatuses.status400 || responseStatuses.status403)
+    ) {
+      return {
+        status: response.status,
+        message: (await response.json()).message,
+      };
     }
-    const token: string = await response.json();
-    return token;
+    // const token: string = await response.json();
+    // TODO save token in local storage
+    return {
+      status: response.status,
+      message: 'You have logged in',
+    };
   } catch (error) {
     throw new Error(`${error}`);
   }

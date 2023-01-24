@@ -4,4 +4,10 @@ const signIn = `${baseUrl}auth/signin`;
 const user = `${baseUrl}users`;
 const users = `${user}/users`;
 
-export { signUp, signIn, user, users };
+const responseStatuses = {
+  success: 200,
+  status400: 400,
+  status403: 403,
+};
+
+export { signUp, signIn, user, users, responseStatuses };
