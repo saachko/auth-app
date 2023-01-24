@@ -1,5 +1,5 @@
 import { responseStatuses, signIn, signUp, user, users } from './constants';
-import { LoginUserData, RegistrationUserData, User } from './interfaces';
+import { LoginUserData, RegistrationUserData, Token, User } from './interfaces';
 
 const signUpUser = async (userData: RegistrationUserData) => {
   try {
@@ -39,8 +39,8 @@ const signInUser = async (userData: LoginUserData) => {
         message: (await response.json()).message,
       };
     }
-    // const token: string = await response.json();
-    // TODO save token in local storage
+    const token: Token = await response.json();
+    localStorage.setItem('accessUserToken', JSON.stringify(token.token));
     return {
       status: response.status,
       message: 'You have logged in',

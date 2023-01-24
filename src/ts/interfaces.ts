@@ -24,4 +24,8 @@ interface AuthResponse {
   message: string;
 }
 
-export type { User, RegistrationUserData, LoginUserData, AuthResponse };
+interface Token {
+  token: string;
+}
+
+export type { User, RegistrationUserData, LoginUserData, AuthResponse, Token };
