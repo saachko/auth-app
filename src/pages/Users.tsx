@@ -6,6 +6,7 @@ import parseJwt from 'ts/functions';
 import { User } from 'ts/interfaces';
 import SetState from 'ts/types';
 
+import ButtonsToolbar from '../components/ButtonToolbar';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import UsersTable from '../components/UsersTable';
@@ -47,6 +48,7 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
   ) : (
     <>
       <Header setLoggedIn={setLoggedIn} username={currentUserName} />
+      <ButtonsToolbar />
       <UsersTable
         users={users}
         selectedUserId={selectedUserId}
