@@ -5,9 +5,10 @@ import SetState from 'ts/types';
 
 interface HeaderProps {
   setLoggedIn: SetState<boolean>;
+  username: string | undefined;
 }
 
-function Header({ setLoggedIn }: HeaderProps) {
+function Header({ setLoggedIn, username }: HeaderProps) {
   const logOut = () => {
     localStorage.removeItem('accessUserToken');
     setLoggedIn(false);
@@ -19,7 +20,7 @@ function Header({ setLoggedIn }: HeaderProps) {
       activeKey="/auth-app"
       variant="pills"
     >
-      <h3 className="text-primary">Welcome, </h3>
+      <h3 className="text-primary">Welcome, {username}!</h3>
       <Nav.Item className="hover">
         <Nav.Link href="/auth-app" onClick={logOut}>
           Log out

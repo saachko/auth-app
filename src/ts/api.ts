@@ -72,7 +72,9 @@ const getUserById = async (userId: string, token: string) => {
     const response = await fetch(`${user}/${userId}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
     });
     const foundUser: User = await response.json();
@@ -87,7 +89,9 @@ const deleteUser = async (userId: string, token: string) => {
     const response = await fetch(`${user}/${userId}`, {
       method: 'DELETE',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
     });
     const deletedUser: User = await response.json();
@@ -102,7 +106,7 @@ const updateUser = async (userId: string, token: string, userData: User) => {
     const response = await fetch(`${user}/${userId}`, {
       method: 'PUT',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
       body: JSON.stringify(userData),
     });
