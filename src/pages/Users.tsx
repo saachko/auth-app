@@ -3,16 +3,19 @@ import { Navigate } from 'react-router-dom';
 
 import { getUsers } from 'ts/api';
 import { User } from 'ts/interfaces';
+import SetState from 'ts/types';
 
+import Header from '../components/Header';
 import Loading from '../components/Loading';
 import UsersTable from '../components/UsersTable';
 
 interface UsersProps {
   isLoggedIn: boolean;
+  setLoggedIn: SetState<boolean>;
   token: string;
 }
 
-function Users({ isLoggedIn, token }: UsersProps) {
+function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
   const [isDataLoading, setDataLoading] = useState(false);
   const [users, setUsers] = useState<User[] | null>(null);
 
@@ -31,7 +34,14 @@ function Users({ isLoggedIn, token }: UsersProps) {
   if (!isLoggedIn) {
     return <Navigate to="/auth-app" />;
   }
-  return isDataLoading ? <Loading /> : <UsersTable users={users} />;
+  return isDataLoading ? (
+    <Loading />
+  ) : (
+    <>
+      <Header setLoggedIn={setLoggedIn} />
+      <UsersTable users={users} />
+    </>
+  );
 }
 
 export default memo(Users);

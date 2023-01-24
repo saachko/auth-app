@@ -34,7 +34,13 @@ function App() {
     },
     {
       path: '/auth-app/users',
-      element: <Users isLoggedIn={isLoggedIn} token={token} />,
+      element: (
+        <Users
+          isLoggedIn={isLoggedIn}
+          setLoggedIn={setLoggedIn}
+          token={token}
+        />
+      ),
     },
     {
       path: '*',
