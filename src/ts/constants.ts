@@ -45,6 +45,14 @@ const tableHeadings: TableHeading[] = [
   },
 ];
 
+const iconStyle = { color: 'white', fontSize: '1.3em', marginTop: '-5px' };
+
+const textForWarnings = {
+  delete: 'delete',
+  block: 'block',
+  unblock: 'unblock',
+};
+
 export {
   signUp,
   signIn,
@@ -53,4 +61,6 @@ export {
   responseStatuses,
   emailValidation,
   tableHeadings,
+  iconStyle,
+  textForWarnings,
 };

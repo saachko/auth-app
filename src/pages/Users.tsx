@@ -21,6 +21,7 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
   const [isDataLoading, setDataLoading] = useState(false);
   const [users, setUsers] = useState<User[] | null>(null);
   const [currentUserName, setCurrentUserName] = useState('');
+  const [currentUserId, setCurrentUserId] = useState('');
   const [selectedUserId, setSelectedUserId] = useState<string[]>([]);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
           accessToken
         );
         setCurrentUserName(currentUser.username);
+        setCurrentUserId(currentUser._id);
         const data = await getUsers(accessToken);
         setUsers(data);
         setDataLoading(false);
@@ -48,7 +50,14 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
   ) : (
     <>
       <Header setLoggedIn={setLoggedIn} username={currentUserName} />
-      <ButtonsToolbar />
+      <ButtonsToolbar
+        selectedId={selectedUserId}
+        currentUserId={currentUserId}
+        setLoggedIn={setLoggedIn}
+        token={token}
+        setUsers={setUsers}
+        setDataLoading={setDataLoading}
+      />
       <UsersTable
         users={users}
         selectedUserId={selectedUserId}
