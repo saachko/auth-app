@@ -54,7 +54,6 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
         selectedId={selectedUserId}
         currentUserId={currentUserId}
         setLoggedIn={setLoggedIn}
-        token={token}
         setUsers={setUsers}
         setDataLoading={setDataLoading}
       />

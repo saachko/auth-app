@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { AiFillDelete } from 'react-icons/ai';
 
@@ -13,7 +13,6 @@ interface ButtonsToolbarProps {
   selectedId: string[];
   currentUserId: string;
   setLoggedIn: SetState<boolean>;
-  token: string;
   setUsers: SetState<User[] | null>;
   setDataLoading: SetState<boolean>;
 }
@@ -22,12 +21,17 @@ function ButtonsToolbar({
   selectedId,
   currentUserId,
   setLoggedIn,
-  token,
   setUsers,
   setDataLoading,
 }: ButtonsToolbarProps) {
+  const [currentToken, setCurrentToken] = useState('');
   const [isWarningShown, setWarningShown] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessUserToken');
+    if (accessToken) setCurrentToken(accessToken);
+  }, []);
 
   const checkCurrentUser = () => {
     if (selectedId.includes(currentUserId)) {
@@ -37,15 +41,15 @@ function ButtonsToolbar({
   };
 
   const updateUsersTable = async () => {
-    const data = await getUsers(token);
+    const data = await getUsers(currentToken);
     setUsers(data);
   };
 
   const changeUserStatus = async (isUserBlocked: boolean) => {
     await Promise.all(
       selectedId.map(async (changedId) => {
-        const changedUser = await getUserById(changedId, token);
-        await updateUser(changedId, token, {
+        const changedUser = await getUserById(changedId, currentToken);
+        await updateUser(changedId, currentToken, {
           ...changedUser,
           isBlocked: isUserBlocked,
         });
@@ -54,11 +58,11 @@ function ButtonsToolbar({
   };
 
   const deleteUsers = async () => {
-    if (token) {
+    if (currentToken) {
       setDataLoading(true);
       await Promise.all(
         selectedId.map(async (deletedId) => {
-          await deleteUser(deletedId, token);
+          await deleteUser(deletedId, currentToken);
         })
       );
       checkCurrentUser();
@@ -68,7 +72,7 @@ function ButtonsToolbar({
   };
 
   const blockUsers = async () => {
-    if (token) {
+    if (currentToken) {
       setDataLoading(true);
       await changeUserStatus(true);
       checkCurrentUser();
@@ -78,7 +82,7 @@ function ButtonsToolbar({
   };
 
   const unblockUsers = async () => {
-    if (token) {
+    if (currentToken) {
       setDataLoading(true);
       await changeUserStatus(false);
       await updateUsersTable();

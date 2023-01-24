@@ -11,7 +11,9 @@ function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [notificationVariant, setNotificationVariant] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState(
+    localStorage.getItem('accessUserToken') || ''
+  );
 
   const checkToken = (userToken: string) => {
     const parsedToken: ParsedToken = parseJwt(userToken);
