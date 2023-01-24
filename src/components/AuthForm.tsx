@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
 import { signInUser, signUpUser } from 'ts/api';
-import { responseStatuses } from 'ts/constants';
+import { emailValidation, responseStatuses } from 'ts/constants';
 import {
   AuthResponse,
   LoginUserData,
@@ -14,6 +14,9 @@ interface AuthFormProps {
   signUpForm?: boolean;
   id: string;
   setLoggedIn: SetState<boolean>;
+  setNotificationShown: SetState<boolean>;
+  setNotificationVariant: SetState<string>;
+  setNotificationMessage: SetState<string>;
 }
 
 type RegistrationInputs = {
@@ -22,15 +25,32 @@ type RegistrationInputs = {
   password: HTMLInputElement;
 };
 
-function AuthForm({ signUpForm, id, setLoggedIn }: AuthFormProps) {
-  // const [response, setResponse] = useState<AuthResponse | null>(null);
+function AuthForm({
+  signUpForm,
+  id,
+  setLoggedIn,
+  setNotificationShown,
+  setNotificationVariant,
+  setNotificationMessage,
+}: AuthFormProps) {
+  const [response, setResponse] = useState<AuthResponse | null>(null);
+
+  useEffect(() => {
+    if (response) {
+      setNotificationMessage(response?.message);
+      setNotificationShown(true);
+      if (response?.status === responseStatuses.status400) {
+        setNotificationVariant('danger');
+      } else {
+        setNotificationVariant('primary');
+      }
+    }
+  }, [response]);
 
   const handleResponse = async (authResponse: AuthResponse) => {
-    // setResponse(authResponse);
-    // TODO make modals based on response
+    setResponse(authResponse);
     if (authResponse?.status === responseStatuses.success) {
-      // TODO save logIn in local storage
-      setLoggedIn(true);
+      setTimeout(() => setLoggedIn(true), 500);
     }
   };
 
@@ -94,6 +114,7 @@ function AuthForm({ signUpForm, id, setLoggedIn }: AuthFormProps) {
           placeholder="Enter e-mail"
           name="email"
           required
+          pattern={emailValidation}
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId={`${id}formPassword`}>

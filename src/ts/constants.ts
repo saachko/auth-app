@@ -10,4 +10,6 @@ const responseStatuses = {
   status403: 403,
 };
 
-export { signUp, signIn, user, users, responseStatuses };
+const emailValidation = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+
+export { signUp, signIn, user, users, responseStatuses, emailValidation };
