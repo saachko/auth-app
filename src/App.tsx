@@ -31,11 +31,14 @@ function App() {
           setNotificationMessage={setNotificationMessage}
         />
       ),
-      errorElement: <div>not found</div>,
     },
     {
       path: '/auth-app/users',
       element: <Users isLoggedIn={isLoggedIn} token={token} />,
+    },
+    {
+      path: '*',
+      element: <div>not found</div>,
     },
   ]);
 
