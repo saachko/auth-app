@@ -12,6 +12,7 @@ import SetState from 'ts/types';
 
 interface AuthFormProps {
   signUpForm?: boolean;
+  id: string;
   setLoggedIn: SetState<boolean>;
 }
 
@@ -21,7 +22,7 @@ type RegistrationInputs = {
   password: HTMLInputElement;
 };
 
-function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
+function AuthForm({ signUpForm, id, setLoggedIn }: AuthFormProps) {
   // const [response, setResponse] = useState<AuthResponse | null>(null);
 
   const handleResponse = async (authResponse: AuthResponse) => {
@@ -76,7 +77,7 @@ function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
       onSubmit={handleSubmit}
     >
       {signUpForm && (
-        <Form.Group className="mb-3" controlId="formUsername">
+        <Form.Group className="mb-3" controlId={`${id}formUsername`}>
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
@@ -86,7 +87,7 @@ function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
           />
         </Form.Group>
       )}
-      <Form.Group className="mb-3" controlId="formEmail">
+      <Form.Group className="mb-3" controlId={`${id}formEmail`}>
         <Form.Label>E-mail address</Form.Label>
         <Form.Control
           type="email"
@@ -95,7 +96,7 @@ function AuthForm({ signUpForm, setLoggedIn }: AuthFormProps) {
           required
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formPassword">
+      <Form.Group className="mb-3" controlId={`${id}formPassword`}>
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"

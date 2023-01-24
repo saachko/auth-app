@@ -18,10 +18,10 @@ function Main({ isLoggedIn, setLoggedIn }: MainProps) {
   return (
     <Tabs defaultActiveKey="signUp" className="mb-3" justify>
       <Tab eventKey="signUp" title="Sign Up">
-        <AuthForm signUpForm setLoggedIn={setLoggedIn} />
+        <AuthForm signUpForm id="signUp" setLoggedIn={setLoggedIn} />
       </Tab>
       <Tab eventKey="signIn" title="Sign In">
-        <AuthForm setLoggedIn={setLoggedIn} />
+        <AuthForm id="signIn" setLoggedIn={setLoggedIn} />
       </Tab>
     </Tabs>
   );
