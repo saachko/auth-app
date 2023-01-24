@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import Main from 'pages/Main';
+import NotFound from 'pages/NotFound';
 import Users from 'pages/Users';
 
 import parseJwt from 'ts/functions';
@@ -56,8 +57,8 @@ function App() {
       ),
     },
     {
-      path: '*',
-      element: <div>not found</div>,
+      path: '/auth-app/*',
+      element: <NotFound />,
     },
   ]);
 
