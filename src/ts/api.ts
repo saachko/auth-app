@@ -12,8 +12,8 @@ const signInUser = async (userData: LoginUserData) => {
       body: JSON.stringify(userData),
     });
     if (
-      response.status ===
-      (responseStatuses.status400 || responseStatuses.status403)
+      response.status === responseStatuses.status400 ||
+      response.status === responseStatuses.status403
     ) {
       return {
         status: response.status,

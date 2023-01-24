@@ -28,6 +28,13 @@ interface Token {
   token: string;
 }
 
+interface ParsedToken {
+  email: string;
+  exp: number;
+  iat: number;
+  id: string;
+}
+
 interface TableHeading {
   id: string;
   headingName: string;
@@ -39,5 +46,6 @@ export type {
   LoginUserData,
   AuthResponse,
   Token,
+  ParsedToken,
   TableHeading,
 };

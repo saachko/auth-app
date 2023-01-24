@@ -39,8 +39,12 @@ function AuthForm({
     if (response) {
       setNotificationMessage(response?.message);
       setNotificationShown(true);
-      if (response?.status === responseStatuses.status400) {
+      if (
+        response?.status === responseStatuses.status400 ||
+        response.status === responseStatuses.status403
+      ) {
         setNotificationVariant('danger');
+        localStorage.removeItem('accessUserToken');
       } else {
         setNotificationVariant('primary');
       }
