@@ -11,10 +11,12 @@ function App() {
   const [isNotificationShown, setNotificationShown] = useState(false);
   const [notificationVariant, setNotificationVariant] = useState('');
   const [notificationMessage, setNotificationMessage] = useState('');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('accessUserToken');
-    if (token) {
+    const accessToken = localStorage.getItem('accessUserToken');
+    if (accessToken) {
+      setToken(accessToken);
       setLoggedIn(true);
     }
   }, []);
@@ -35,7 +37,7 @@ function App() {
     },
     {
       path: '/auth-app/users',
-      element: <Users isLoggedIn={isLoggedIn} />,
+      element: <Users isLoggedIn={isLoggedIn} token={token} />,
     },
   ]);
 

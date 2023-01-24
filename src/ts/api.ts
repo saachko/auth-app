@@ -55,13 +55,13 @@ const getUsers = async (token: string) => {
     const response = await fetch(`${users}`, {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${JSON.parse(token)}`,
       },
     });
     const usersList: User[] = await response.json();
-    return {
-      items: usersList,
-    };
+    return usersList;
   } catch (error) {
     throw new Error(`${error}`);
   }
