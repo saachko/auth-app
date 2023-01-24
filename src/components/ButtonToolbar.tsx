@@ -30,53 +30,59 @@ function ButtonsToolbar({
   const [warningMessage, setWarningMessage] = useState('');
 
   const checkCurrentUser = () => {
-    if (selectedId.indexOf(currentUserId) !== -1) {
+    if (selectedId.includes(currentUserId)) {
       localStorage.removeItem('accessUserToken');
       setLoggedIn(false);
     }
   };
 
   const updateUsersTable = async () => {
-    setDataLoading(true);
     const data = await getUsers(token);
     setUsers(data);
-    setDataLoading(false);
+  };
+
+  const changeUserStatus = async (isUserBlocked: boolean) => {
+    await Promise.all(
+      selectedId.map(async (changedId) => {
+        const changedUser = await getUserById(changedId, token);
+        await updateUser(changedId, token, {
+          ...changedUser,
+          isBlocked: isUserBlocked,
+        });
+      })
+    );
   };
 
   const deleteUsers = async () => {
     if (token) {
-      selectedId.map(async (deletedId) => {
-        await deleteUser(deletedId, token);
-      });
+      setDataLoading(true);
+      await Promise.all(
+        selectedId.map(async (deletedId) => {
+          await deleteUser(deletedId, token);
+        })
+      );
       checkCurrentUser();
-      updateUsersTable();
+      await updateUsersTable();
+      setDataLoading(false);
     }
   };
 
   const blockUsers = async () => {
     if (token) {
-      selectedId.map(async (blockedId) => {
-        const blockedUser = await getUserById(blockedId, token);
-        await updateUser(blockedId, token, {
-          ...blockedUser,
-          isBlocked: true,
-        });
-      });
+      setDataLoading(true);
+      await changeUserStatus(true);
       checkCurrentUser();
       await updateUsersTable();
+      setDataLoading(false);
     }
   };
 
   const unblockUsers = async () => {
     if (token) {
-      selectedId.map(async (unblockedId) => {
-        const blockedUser = await getUserById(unblockedId, token);
-        await updateUser(unblockedId, token, {
-          ...blockedUser,
-          isBlocked: false,
-        });
-      });
-      updateUsersTable();
+      setDataLoading(true);
+      await changeUserStatus(false);
+      await updateUsersTable();
+      setDataLoading(false);
     }
   };
 

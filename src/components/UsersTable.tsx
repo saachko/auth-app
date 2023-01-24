@@ -19,7 +19,7 @@ function UsersTable({
   const [allChecked, setAllChecked] = useState(false);
 
   const selectUserId = (newSelectedId: string) => {
-    if (selectedUserId.indexOf(newSelectedId) === -1) {
+    if (!selectedUserId.includes(newSelectedId)) {
       setSelectedUserId((prev) => [...prev, newSelectedId]);
     } else {
       setSelectedUserId((prev) => [
