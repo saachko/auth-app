@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap';
 import { AiFillDelete } from 'react-icons/ai';
 
-import { deleteUser, getUsers } from 'ts/api';
+import { deleteUser, getUserById, getUsers, updateUser } from 'ts/api';
 import { iconStyle, textForWarnings } from 'ts/constants';
 import { User } from 'ts/interfaces';
 import SetState from 'ts/types';
@@ -36,22 +36,49 @@ function ButtonsToolbar({
     }
   };
 
+  const updateUsersTable = async () => {
+    setDataLoading(true);
+    const data = await getUsers(token);
+    setUsers(data);
+    setDataLoading(false);
+  };
+
   const deleteUsers = async () => {
     if (token) {
-      setDataLoading(true);
       selectedId.map(async (deletedId) => {
         await deleteUser(deletedId, token);
       });
       checkCurrentUser();
-      const data = await getUsers(token);
-      setUsers(data);
-      setDataLoading(false);
+      updateUsersTable();
     }
   };
 
-  const blockUsers = async () => {};
+  const blockUsers = async () => {
+    if (token) {
+      selectedId.map(async (blockedId) => {
+        const blockedUser = await getUserById(blockedId, token);
+        await updateUser(blockedId, token, {
+          ...blockedUser,
+          isBlocked: true,
+        });
+      });
+      checkCurrentUser();
+      await updateUsersTable();
+    }
+  };
 
-  const unblockUsers = async () => {};
+  const unblockUsers = async () => {
+    if (token) {
+      selectedId.map(async (unblockedId) => {
+        const blockedUser = await getUserById(unblockedId, token);
+        await updateUser(unblockedId, token, {
+          ...blockedUser,
+          isBlocked: false,
+        });
+      });
+      updateUsersTable();
+    }
+  };
 
   const handleSubmit = () => {
     if (warningMessage === textForWarnings.delete) {

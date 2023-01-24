@@ -107,6 +107,8 @@ const updateUser = async (userId: string, token: string, userData: User) => {
     const response = await fetch(`${user}/${userId}`, {
       method: 'PUT',
       headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${JSON.parse(token)}`,
       },
       body: JSON.stringify(userData),
