@@ -1,25 +1,6 @@
 import { responseStatuses, signIn, signUp, user, users } from './constants';
 import { LoginUserData, RegistrationUserData, Token, User } from './interfaces';
 
-const signUpUser = async (userData: RegistrationUserData) => {
-  try {
-    const response = await fetch(`${signUp}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
-    return {
-      status: response.status,
-      message: (await response.json()).message,
-    };
-  } catch (error) {
-    throw new Error(`${error}`);
-  }
-};
-
 const signInUser = async (userData: LoginUserData) => {
   try {
     const response = await fetch(`${signIn}`, {
@@ -44,6 +25,26 @@ const signInUser = async (userData: LoginUserData) => {
     return {
       status: response.status,
       message: 'You have logged in',
+    };
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};
+
+const signUpUser = async (userData: RegistrationUserData) => {
+  try {
+    const response = await fetch(`${signUp}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+    await signInUser({ email: userData.email, password: userData.password });
+    return {
+      status: response.status,
+      message: (await response.json()).message,
     };
   } catch (error) {
     throw new Error(`${error}`);
