@@ -1,3 +1,5 @@
+import { TableHeading } from './interfaces';
+
 const baseUrl = 'https://auth-backend-gjj1.onrender.com/';
 const signUp = `${baseUrl}auth/signup`;
 const signIn = `${baseUrl}auth/signin`;
@@ -12,4 +14,43 @@ const responseStatuses = {
 
 const emailValidation = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
 
-export { signUp, signIn, user, users, responseStatuses, emailValidation };
+const tableHeadings: TableHeading[] = [
+  {
+    id: '1',
+    headingName: '#',
+  },
+  {
+    id: '2',
+    headingName: 'id',
+  },
+  {
+    id: '3',
+    headingName: 'Name',
+  },
+  {
+    id: '4',
+    headingName: 'E-mail',
+  },
+  {
+    id: '5',
+    headingName: 'Registration date & time',
+  },
+  {
+    id: '6',
+    headingName: 'Last login date & time',
+  },
+  {
+    id: '7',
+    headingName: 'Status',
+  },
+];
+
+export {
+  signUp,
+  signIn,
+  user,
+  users,
+  responseStatuses,
+  emailValidation,
+  tableHeadings,
+};

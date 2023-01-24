@@ -4,6 +4,8 @@ import { Navigate } from 'react-router-dom';
 import { getUsers } from 'ts/api';
 import { User } from 'ts/interfaces';
 
+import UsersTable from '../components/UsersTable';
+
 interface UsersProps {
   isLoggedIn: boolean;
   token: string;
@@ -25,7 +27,7 @@ function Users({ isLoggedIn, token }: UsersProps) {
   if (!isLoggedIn) {
     return <Navigate to="/auth-app" />;
   }
-  return <div>Users</div>;
+  return <UsersTable users={users} />;
 }
 
 export default memo(Users);

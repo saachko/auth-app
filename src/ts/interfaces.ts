@@ -28,4 +28,16 @@ interface Token {
   token: string;
 }
 
-export type { User, RegistrationUserData, LoginUserData, AuthResponse, Token };
+interface TableHeading {
+  id: string;
+  headingName: string;
+}
+
+export type {
+  User,
+  RegistrationUserData,
+  LoginUserData,
+  AuthResponse,
+  Token,
+  TableHeading,
+};
