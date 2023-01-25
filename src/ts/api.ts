@@ -81,6 +81,8 @@ const getUserById = async (userId: string, token: string) => {
     const foundUser: User = await response.json();
     return foundUser;
   } catch (error) {
+    localStorage.removeItem('accessUserToken');
+    document.location.reload();
     throw new Error(`${error}`);
   }
 };
