@@ -25,7 +25,7 @@ function Warning({
     >
       <Modal.Body>
         Do you really want to{' '}
-        <span className="text-primary">{warningText}</span> selected users
+        <span className="text-primary">{warningText}</span> selected users?
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => setWarningShown(false)}>
