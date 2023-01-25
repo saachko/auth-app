@@ -27,7 +27,7 @@ function Main({
   const [isNotificationShown, setNotificationShown] = useState(false);
 
   if (isLoggedIn) {
-    return <Navigate to="/auth-app/users" />;
+    return <Navigate to="/users" />;
   }
   return (
     <>

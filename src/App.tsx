@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Main from 'pages/Main';
 import NotFound from 'pages/NotFound';
@@ -32,37 +32,34 @@ function App() {
     }
   }, []);
 
-  const router = createBrowserRouter([
-    {
-      path: '/auth-app',
-      element: (
-        <Main
-          isLoggedIn={isLoggedIn}
-          setLoggedIn={setLoggedIn}
-          notificationVariant={notificationVariant}
-          setNotificationVariant={setNotificationVariant}
-          notificationMessage={notificationMessage}
-          setNotificationMessage={setNotificationMessage}
-        />
-      ),
-    },
-    {
-      path: '/auth-app/users',
-      element: (
-        <Users
-          isLoggedIn={isLoggedIn}
-          setLoggedIn={setLoggedIn}
-          token={token}
-        />
-      ),
-    },
-    {
-      path: '/auth-app/*',
-      element: <NotFound />,
-    },
-  ]);
-
-  return <RouterProvider router={router} />;
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Main
+            isLoggedIn={isLoggedIn}
+            setLoggedIn={setLoggedIn}
+            notificationVariant={notificationVariant}
+            setNotificationVariant={setNotificationVariant}
+            notificationMessage={notificationMessage}
+            setNotificationMessage={setNotificationMessage}
+          />
+        }
+      />
+      <Route
+        path="/users"
+        element={
+          <Users
+            isLoggedIn={isLoggedIn}
+            setLoggedIn={setLoggedIn}
+            token={token}
+          />
+        }
+      />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 }
 
 export default App;

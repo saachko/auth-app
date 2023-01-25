@@ -9,7 +9,7 @@ function NotFound() {
         <Card.Body>
           <Card.Title>Something went wrong</Card.Title>
           <Card.Text>{`This page doesn't exist`}</Card.Text>
-          <Nav.Link href="/auth-app">
+          <Nav.Link href="/">
             <Button variant="primary">Go to the main page</Button>
           </Nav.Link>
         </Card.Body>

@@ -43,7 +43,7 @@ function Users({ isLoggedIn, setLoggedIn, token }: UsersProps) {
   }, [token]);
 
   if (!isLoggedIn) {
-    return <Navigate to="/auth-app" />;
+    return <Navigate to="/" />;
   }
   return isDataLoading ? (
     <Loading />
