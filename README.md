@@ -4,7 +4,11 @@
 
 [Link to the deploy](https://saachko.github.io/auth-app/)
 
+[Link to the video](https://youtu.be/q0NiIJDXhWk)
+
 [Link to the backend repository](https://github.com/saachko/auth-backend/tree/develop)
+
+> **Attention!** The backend is deployed on a free service render.com, so when you run the application for the first time, you need to wait a little bit. Thank you 🙏
 
 ## Usage
 
